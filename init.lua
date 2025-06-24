@@ -941,6 +941,32 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      local get_filesize = function()
+        local size = math.max(vim.fn.line2byte(vim.fn.line '$' + 1) - 1, 0)
+        if size < 1024 then
+          return string.format('%dB', size)
+        elseif size < 1048576 then
+          return string.format('%.2fKiB', size / 1024)
+        else
+          return string.format('%.2fMiB', size / 1048576)
+        end
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_fileinfo = function(args)
+        local encoding = vim.bo.fileencoding or vim.bo.encoding
+        local size = get_filesize()
+        if MiniStatusline.is_truncated(args.trunc_width) then
+          return encoding
+        end
+
+        return string.format('%s %s', encoding, size)
+      end
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_git = function()
+        return ''
+      end
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
