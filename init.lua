@@ -84,6 +84,8 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+local isatwork = os.getenv 'NVIM_AT_WORK' == 'YES'
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -777,9 +779,10 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
-        -- typescript = { 'prettier', 'prettierd', stop_after_first = true },
-        php = { 'trim_whitespace' },
+        javascript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
+        -- typescript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
+        -- I think this means it'll fall back to lsp if I'm not at work?
+        php = isatwork and { 'trim_whitespace' } or {},
       },
     },
   },
@@ -966,6 +969,7 @@ require('lazy').setup({
 
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_git = function()
+        -- should probably change the group to exclude section_git instead
         return ''
       end
 
