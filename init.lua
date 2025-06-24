@@ -765,13 +765,18 @@ require('lazy').setup({
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-            async = false,
-          }
         end
+
+        if isatwork then
+          -- if at work also disable lsp_fallback
+          return nil
+        end
+
+        return {
+          timeout_ms = 500,
+          lsp_format = 'fallback',
+          async = false,
+        }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
