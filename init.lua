@@ -943,12 +943,14 @@ require('lazy').setup({
 
       local get_filesize = function()
         local size = math.max(vim.fn.line2byte(vim.fn.line '$' + 1) - 1, 0)
-        if size < 1024 then
+        if size < 1000 then
           return string.format('%dB', size)
-        elseif size < 1048576 then
-          return string.format('%.2fKiB', size / 1024)
+        elseif size < 1000000 then
+          return string.format('%.1fKB', size / 1000)
+        elseif size < 1000000000 then
+          return string.format('%.1fMB', size / 1000000)
         else
-          return string.format('%.2fMiB', size / 1048576)
+          return string.format('%.1fGB', size / 1000000000)
         end
       end
       ---@diagnostic disable-next-line: duplicate-set-field
