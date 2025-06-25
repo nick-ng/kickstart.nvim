@@ -429,6 +429,7 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
 
+      -- TODO: (nick-ng) change vim commands to lua?
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>s?', builtin.help_tags, { desc = '[S]earch [?]Help' })
