@@ -765,6 +765,11 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
+        -- if at work disable lsp_fallback
+        if isatwork then
+          return nil
+        end
+
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
@@ -773,13 +778,14 @@ require('lazy').setup({
           return nil
         end
 
-        if isatwork then
-          -- if at work also disable lsp_fallback
-          return nil
+        local timeout_ms = 500
+        local slow_filetypes = { json = true, javascript = true, javascriptreact = true, typescript = true, typescriptreact = true, svelte = true }
+        if slow_filetypes[vim.bo[bufnr].filetype] then
+          timeout_ms = 8000
         end
 
         return {
-          timeout_ms = 500,
+          timeout_ms = timeout_ms,
           lsp_format = 'fallback',
           async = false,
         }
@@ -980,8 +986,9 @@ require('lazy').setup({
 
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_git = function()
-        -- should probably change the group to exclude section_git instead
         return ''
+        -- i usually use this to check stuff
+        -- return vim.bo.filetype
       end
 
       -- ... and there is more!
