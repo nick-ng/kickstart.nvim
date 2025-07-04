@@ -441,6 +441,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sg', ":Telescope live_grep hidden=true<cr>", { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sG', ":Telescope live_grep hidden=true glob_pattern=", { desc = '[S]earch by [G]rep with glob_pattern' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>sr', ":Telescope resume hidden=true<cr>", { desc = '[S]earch [R]esume' })
@@ -544,6 +545,17 @@ require('lazy').setup({
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+
+          -- Similar to hovering *things* in VS Code
+          map('K', function()
+            vim.lsp.buf.hover {
+              border = 'rounded',
+              max_height = 25,
+              max_width = 70,
+              wrap = true,
+              wrap_at = 68
+            }
+          end, 'Hover Information [K]')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
