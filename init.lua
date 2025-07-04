@@ -131,7 +131,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Width of tab character
-vim.opt.tabstop = 3
+vim.opt.tabstop = 4
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
@@ -435,8 +435,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s?', builtin.help_tags, { desc = '[S]earch [?]Help' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>sh', ":Telescope find_files hidden=true<cr>", { desc = '[S]earch [H]idden Files' })
-      vim.keymap.set('n', '<leader>si', ":Telescope find_files hidden=true no_ignore=true<cr>", { desc = '[S]earch [I]gnored Files' })
+      vim.keymap.set('n', '<leader>sh', ':Telescope find_files hidden=true<cr>', { desc = '[S]earch [H]idden Files' })
+      vim.keymap.set('n', '<leader>si', ':Telescope find_files hidden=true no_ignore=true<cr>', { desc = '[S]earch [I]gnored Files' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -444,7 +444,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sG', ":Telescope live_grep hidden=true glob_pattern=", { desc = '[S]earch by [G]rep with glob_pattern' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>sr', ":Telescope resume hidden=true<cr>", { desc = '[S]earch [R]esume' })
+      vim.keymap.set('n', '<leader>sr', ':Telescope resume hidden=true<cr>', { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
@@ -812,6 +812,7 @@ require('lazy').setup({
         -- typescript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
         -- I think this means it'll fall back to lsp if I'm not at work?
         php = isatwork and { 'trim_whitespace' } or {},
+        bash = {},
       },
     },
   },
