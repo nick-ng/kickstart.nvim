@@ -547,13 +547,15 @@ require('lazy').setup({
           end
 
           -- Similar to hovering *things* in VS Code
+          -- add a border so it's easier to see
           map('K', function()
+            local halfwidth = math.floor(vim.o.columns / 2.1)
             vim.lsp.buf.hover {
               border = 'rounded',
               max_height = 25,
-              max_width = 70,
+              max_width = halfwidth,
               wrap = true,
-              wrap_at = 68,
+              wrap_at = halfwidth - 2,
             }
           end, 'Hover Information [K]')
 
