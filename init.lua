@@ -559,6 +559,24 @@ require('lazy').setup({
             }
           end, 'Hover Information [K]')
 
+          -- Show diagnostic in a window
+          local diagnosticopenfloat = function()
+            local halfwidth = math.floor(vim.o.columns / 2.1)
+            vim.diagnostic.open_float {
+              border = 'rounded',
+              max_height = 25,
+              max_width = halfwidth,
+              wrap = true,
+              wrap_at = halfwidth - 2,
+            }
+          end
+          map('grK', function()
+            diagnosticopenfloat()
+          end, 'Hover Diagnostic [gK]')
+          map('gK', function()
+            diagnosticopenfloat()
+          end, 'Hover Diagnostic [gK]')
+
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
