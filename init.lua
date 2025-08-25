@@ -831,11 +831,14 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
+        -- javascript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
+        javascript = isatwork and { 'trim_whitespace' } or { 'deno_fmt' },
         -- typescript = isatwork and { 'trim_whitespace' } or { 'prettierd', 'prettier', stop_after_first = true },
         -- I think this means it'll fall back to lsp if I'm not at work?
         php = isatwork and { 'trim_whitespace' } or {},
         bash = {},
+        markdown = { 'deno_fmt' },
+        ['_'] = { 'trim_whitespace' },
       },
     },
   },
@@ -1014,7 +1017,7 @@ require('lazy').setup({
           return encoding
         end
 
-        return string.format('%s %s', encoding, size)
+        return string.format('%s %s %s', vim.bo.filetype, encoding, size)
       end
 
       ---@diagnostic disable-next-line: duplicate-set-field
