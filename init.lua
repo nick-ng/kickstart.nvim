@@ -839,6 +839,7 @@ require('lazy').setup({
         bash = {},
         go = { 'goimports', 'gofmt', stop_after_first = true },
         html = { 'deno_fmt' },
+        json = { 'deno_fmt' },
         markdown = { 'deno_fmt' },
         ['_'] = { 'trim_whitespace' },
       },
