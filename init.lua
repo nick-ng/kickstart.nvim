@@ -837,6 +837,8 @@ require('lazy').setup({
         -- I think this means it'll fall back to lsp if I'm not at work?
         php = isatwork and { 'trim_whitespace' } or {},
         bash = {},
+        go = { 'goimports', 'gofmt', stop_after_first = true },
+        html = { 'deno_fmt' },
         markdown = { 'deno_fmt' },
         ['_'] = { 'trim_whitespace' },
       },
