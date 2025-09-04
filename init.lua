@@ -841,6 +841,7 @@ require('lazy').setup({
         html = { 'deno_fmt' },
         json = { 'deno_fmt' },
         markdown = { 'deno_fmt' },
+        svelte = { 'prettierd', 'prettier', stop_after_first = true },
         ['_'] = { 'trim_whitespace' },
       },
     },
