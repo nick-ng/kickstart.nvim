@@ -132,7 +132,7 @@ vim.o.smartcase = true
 
 -- Indentation
 vim.opt.tabstop = 4 -- Number of spaces that a <Tab> counts for (default 8)
-vim.opt.shiftwidth = vim.opt.tabstop -- Number of spaces to use for each step of (auto)indent
+vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
