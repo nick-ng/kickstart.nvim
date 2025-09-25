@@ -725,7 +725,21 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
-        svelte = {},
+        svelte = {
+          -- "hack" to make svelte lsp .js and .ts file that change
+          on_attach = function(client)
+            if client.name == 'svelte' then
+              vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+                pattern = { '*.js', '*.ts' },
+                callback = function(ctx)
+                  client:notify('$/onDidChangeTsOrJsFile', {
+                    uri = ctx.match,
+                  })
+                end,
+              })
+            end
+          end,
+        },
 
         -- php
         intelephense = {},
