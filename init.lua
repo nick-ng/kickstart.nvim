@@ -818,7 +818,14 @@ require('lazy').setup({
       format_on_save = function(bufnr)
         -- if at work disable lsp_fallback
         if isatwork then
-          return nil
+          -- some formats you should run at work
+          local enabled_filetypes = {
+            lua = true,
+            sql = true,
+          }
+          if not enabled_filetypes[vim.bo[bufnr].filetype] then
+            return nil
+          end
         end
 
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -858,6 +865,7 @@ require('lazy').setup({
         json = { 'deno_fmt' },
         markdown = { 'deno_fmt' },
         svelte = { 'prettierd', 'prettier', stop_after_first = true },
+        sql = { 'sqlfmt' },
         ['_'] = { 'trim_whitespace' },
       },
     },
