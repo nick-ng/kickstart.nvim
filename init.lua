@@ -431,12 +431,35 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
 
+      -- check if you are in a git repo and use git_files or find_files as appropriate
+      local directorycache = {}
+      local utils = require 'telescope.utils'
+      local builtin = require 'telescope.builtin'
+      _G.project_files = function()
+        local _, ret0, _ = utils.get_os_command_output { 'pwd' }
+        if not directorycache[ret0] then
+          local _, ret, _ = utils.get_os_command_output { 'git', 'rev-parse', '--is-inside-work-tree' }
+          if ret == 0 then
+            directorycache[ret0] = 'yes'
+          else
+            directorycache[ret0] = 'no'
+          end
+        end
+
+        if directorycache[ret0] == 'yes' then
+          builtin.git_files()
+        else
+          builtin.find_files()
+        end
+      end
+
       -- TODO: (nick-ng) change vim commands to lua?
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>s?', builtin.help_tags, { desc = '[S]earch [?]Help' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.git_files, { desc = '[S]earch Git [f]iles' })
+      -- vim.keymap.set('n', '<leader>sf', builtin.git_files, { desc = '[S]earch Git [f]iles' })
+      vim.keymap.set('n', '<leader>sf', '<cmd>lua project_files()<CR>', { desc = '[S]earch Git [f]iles' })
       vim.keymap.set('n', '<leader>sF', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>sh', ':Telescope find_files hidden=true<cr>', { desc = '[S]earch [h]idden Files' })
       vim.keymap.set('n', '<leader>si', ':Telescope find_files hidden=true no_ignore=true<cr>', { desc = '[S]earch [I]gnored Files' })
