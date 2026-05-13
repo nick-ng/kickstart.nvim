@@ -527,7 +527,7 @@ require('lazy').setup({
       { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
-      'saghen/blink.cmp',
+      -- 'saghen/blink.cmp', -- disabled; see blink spec below
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -727,7 +727,9 @@ require('lazy').setup({
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      -- blink.cmp is currently disabled (crashes nvim 0.12 on load); fall back to core defaults.
+      local ok_blink, blink = pcall(require, 'blink.cmp')
+      local capabilities = ok_blink and blink.get_lsp_capabilities() or vim.lsp.protocol.make_client_capabilities()
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -901,6 +903,13 @@ require('lazy').setup({
 
   { -- Autocompletion
     'saghen/blink.cmp',
+    -- Disabled 2026-05-13: crashes nvim 0.12.0 on load (TUI exits before UIEnter, or visibly
+    -- with module errors). Reproduced on:
+    --   - v1.4.1 (commit 9bcb14b4) — the kickstart-locked version
+    --   - v1.10.2 (commit 78336bc)
+    --   - v2/main HEAD (commit 2ef3db1) — also requires saghen/blink.lib which isn't packaged
+    -- Re-enable once upstream supports nvim 0.12, or migrate to nvim-cmp.
+    enabled = false,
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
