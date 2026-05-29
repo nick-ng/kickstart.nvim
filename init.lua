@@ -765,6 +765,7 @@ require('lazy').setup({
             end
           end,
         },
+        tailwindcss = {},
 
         -- php
         intelephense = {},
